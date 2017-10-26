@@ -20,7 +20,7 @@ start_service() {
   echo "Open your browser: http://localhost:${APP_EXPOSE_PORT}"
   docker run -d \
   	-p${APP_EXPOSE_PORT}:80 \
-  	--name="${APP_CONTAINER_NAME}" \
+  	--name ${APP_CONTAINER_NAME} \
   	--rm \
   	-e "PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}" \
 	-e "PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}" \
@@ -29,12 +29,12 @@ start_service() {
 
 
 stop_service() {
-  docker kill "${APP_CONTAINER_NAME}"
+  docker stop "${APP_CONTAINER_NAME}"
 }
 
 
 exec_in_container() {
-  docker exec "${APP_CONTAINER_NAME}" bash
+  docker exec -it "${APP_CONTAINER_NAME}" bash
 }
 
 state() {
@@ -47,7 +47,7 @@ if [ $# = 0 ]; then
 fi
 
 
-while getopts ":hske:p" opt;
+while getopts ":hskee:p" opt;
 do
   case $opt in
 	h) print_help
