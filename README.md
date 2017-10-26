@@ -1,3 +1,3 @@
 # docker
 
-Docker-based tools and project skeletones
+Docker-based tools and project skeletons
