@@ -16,15 +16,18 @@ print_help() {
 
 
 start_service() {
-  echo "========== PGADMIN 4 ========="
-  echo "Open your browser: http://localhost:${APP_EXPOSE_PORT}"
+  chmod 777 private/
   docker run -d \
   	-p${APP_EXPOSE_PORT}:80 \
   	--name ${APP_CONTAINER_NAME} \
   	--rm \
   	-e "PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}" \
 	-e "PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}" \
+	-v $(pwd)/private:/var/lib/pgadmin:rw \
 	dpage/pgadmin4
+  echo "====================== PGADMIN 4 ======================="
+  echo "Open your browser: http://localhost:${APP_EXPOSE_PORT}"
+  echo "All user credentials, sessions etc.. will be saved here: " $(pwd)/private
 }
 
 
