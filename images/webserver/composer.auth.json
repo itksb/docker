@@ -1,0 +1,5 @@
+{
+  "github-oauth": {
+    "github.com": "YOUR_COMPOSER_API_TOKEN_HERE"
+  }
+}

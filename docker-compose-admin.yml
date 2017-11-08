@@ -1,0 +1,26 @@
+version: '2'
+services:
+
+    itksb_web_server:
+        build:
+          context: ./images/webserver
+          dockerfile: Dockerfile
+          args:
+             http_proxy: ${http_proxy}
+             http_proxy: ${https_proxy}
+             HTTP_PROXY: ${http_proxy}
+             HTTPS_PROXY: ${https_proxy}
+        container_name: ${WWW_CONTAINER_NAME}
+        image: ${WEB_SERVER_IMAGE_NAME}
+        environment:
+             - http_proxy=${http_proxy}
+             - https_proxy=${https_proxy}
+             - PHP_USER_ID=${PHP_USER_ID}
+             - PHP_ENABLE_XDEBUG=${PHP_ENABLE_XDEBUG}
+             - COMPOSER_ALLOW_SUPERUSER=1
+             - COMPOSER_API_TOKEN=${COMPOSER_API_TOKEN}
+        ports:
+             - "8080:80"
+             - "9001:9000"
+        volumes:
+             - ${WEB_SERVER_MOUNT_PATH}:/var/www/html/
