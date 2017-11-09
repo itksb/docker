@@ -24,6 +24,10 @@ print_help() {
 }
 
 
+state() {
+  docker-compose -f ${ADMIN_DOCKER_COMPOSE_FILE} ps
+}
+
 start_service() {
   echo "==========HELLO FROM DEVELOPMENT ENVIRONMENT========="
   echo "Show logs:"
@@ -32,6 +36,7 @@ start_service() {
 
   docker-compose -f ${ADMIN_DOCKER_COMPOSE_FILE} build
   docker-compose -f ${ADMIN_DOCKER_COMPOSE_FILE} up -d
+  state
 }
 
 
@@ -42,10 +47,6 @@ stop_service() {
 
 exec_in_container() {
   docker-compose -f ${ADMIN_DOCKER_COMPOSE_FILE} exec "$NAME" bash
-}
-
-state() {
-  docker-compose -f ${ADMIN_DOCKER_COMPOSE_FILE} ps
 }
 
 
@@ -66,13 +67,18 @@ exec_console() {
   bash
 }
 
+show_log() {
+  echo "====================LAST LOGS=========================";
+  docker-compose -f ${ADMIN_DOCKER_COMPOSE_FILE} logs -f
+}
+
 
 if [ $# = 0 ]; then
     print_help
 fi
 
 
-while getopts ":hskcrRdDe:p" opt;
+while getopts ":hskcrRdDle:p" opt;
 do
   case $opt in
 	h) print_help
@@ -87,6 +93,8 @@ do
 	p) state
 	;;
 	c) exec_console
+	;;
+	l) show_log
 	;;
 	*) echo 'Wrong key! Run "run.sh -h" for help'
 	  exit 1
